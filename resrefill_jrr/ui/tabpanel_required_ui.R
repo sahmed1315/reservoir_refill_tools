@@ -1,4 +1,4 @@
-tabPanel("Reservoir Refill",
+tabPanel("Required",
          fluidRow(
            align = "center",
            #     plotOutput("plot", height = plot.height, width = plot.width),
