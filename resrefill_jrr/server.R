@@ -20,7 +20,7 @@ shinyServer(function(input, output) {
   # TAB 1
   # Current Conditions (cc)
   #----------------------------------------------------------------------------
-  source("server/cc_server.R", local = TRUE)
+  source("server/param_server.R", local = TRUE)
   #----------------------------------------------------------------------------
   # TAB 2
   # Optional Conditions (oc)
