@@ -7,23 +7,30 @@ todays.date <- reactive({
 #------------------------------------------------------------------------------
 observeEvent(input$today.override, {
   req(todays.date() >= lubridate::ymd("1929-01-01"))
-
-  s.date <- todays.date() - lubridate::days(10)
-  e.date <- todays.date() + lubridate::days(10)
+  date.range <-todays.date()+months(0:12) %>% lubridate::rollback(roll_to_first=TRUE,preserve_hms=FALSE)
+  
+  e.year<-ceiling_date(todays.date(), unit = "years", change_on_boundary = NULL, week_start = getOption("lubridate.week.start", 7))%>%
+              lubridate::year()
+  e.may<-lubridate::make_date(year=e.year,month=5,day=31)
+  date.range <- e.may %m-% months(0:12) # No rollover
+  s.may <-min(date.range)
+  #may.start<-lubridate::ymd(date(todays.year,5,31))
+  s.date <- s.may
+  e.date <- e.may
   start.date <- as.Date(s.date)
   end.date <- as.Date(e.date)
   name <- "date.range"
-  min.range <- 1
+  # min.range <- 1
   # If end date is earlier than start date, update the end date to be the same as the new start date
-  if (end.date < start.date | end.date - start.date < min.range) {
-    end.date = start.date + min.range
-  }
+  # if (end.date < start.date | end.date - start.date < min.range) {
+  #   end.date = start.date + min.range
+  # }
   updateDateRangeInput(session, name, start = start.date, end = end.date)
-  date_frame <- function(start.date, end.date, seq.by = "day") {
-    data.frame(date_time = seq.POSIXt(start.date, end.date, by = seq.by))
-  #  return(data.frame)
-  }
-  print(s.date)
+  # date_frame <- function(start.date, end.date, seq.by = "day") {
+  #   data.frame(date_time = seq.POSIXt(start.date, end.date, by = seq.by))
+  # #  return(data.frame)
+ # }
+ # print(may.start)
 })
 #print(s.date)
 # #------------------------------------------------------------------------------
