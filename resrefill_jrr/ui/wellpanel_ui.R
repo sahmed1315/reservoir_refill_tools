@@ -12,7 +12,10 @@ wellPanel(
           
           tags$h4("Current Storage"),
           tags$br(
-            dateInput("date_resmeas", "Date:", value = Sys.Date(), width = "100px"),
+            dateInput("today.override", 
+                      paste0("Today's Date (", Sys.Date(), "):"),
+                      value = Sys.Date(), min = "1929-10-01", max = Sys.Date(), format="yyyy-mm-dd",
+                      width = "100px"),
             selectInput("units", "Units:", c("Acre-ft" = "acft", "BG" = "bg"), width = "100px"),
             numericInput("val_resmeas_tl", "Total Usable Storage:", 0, min=0,max = 45.99 * 10^9, width = "100px"),
             numericInput("val_resmeas_ws", "Water Supply Storage:", 0, min=0,max = 45.99 * 10^9, width = "100px")
@@ -20,7 +23,7 @@ wellPanel(
           tags$h4("Inflow Scenario"),
           tags$br(
             sliderInput("percentile", "Historical Year", min=1930, max=2013, value=1930, step=1, round=0, sep=""),
-            sliderInput("percentile", "Inflow Percentile", min=0, max=100, value=5, step=1, round=0)
+            sliderInput("percentile", "Percentile", min=0, max=100, value=5, step=1, round=0)
           )
         ),
         conditionalPanel("input.tab == 'Required'",
@@ -79,7 +82,7 @@ wellPanel(
         ),
        conditionalPanel("input.tab == 'Optional'",
                         column(9, offset=1,
-                               tags$h4('Optional Plotting Points (see "Units" input for Acre-ft or BG)'),
+                               tags$h4('Optional Storage Values for Plotting Only (see "Units" input for Acre-ft or BG)'),
                                fluidRow(
                                  column(2,tags$br(tags$b("Total Storage (end of month):"))),
                                  column(2,tags$br(tags$b("Total Water Supply Storage (end of month):")))
@@ -115,6 +118,8 @@ wellPanel(
                                      numericInput("param_flood_elv", "Flood Pool (ft):", 1500, min=0,max = 1514, width = "100px"),
                                      numericInput("param_spill_elv", "Spillway (ft):", 1468, min=0,max = 1514, width = "100px"),
                                      numericInput("param_cons_elv", "Conservation Pool (ft):", 1466, min=0,max = 1514, width = "100px")
+#                                     numericInput("param_drainage_area", "Drainage Area (square miles):", 263, min=0,max = 300, width = "100px")
+#                                     numericInput("param_1inch_runoff", "One Inch of Runoff (Acre-ft)):", 14027, min=0,max = 15000, width = "100px")
                                   ),
                                   column(2,#tags$br(tags$b("Volumes")),
                                      numericInput("param_wq_vol", "Water Quality (Acre-ft):", 48885, min=0,max =  141147, width = "100px"),
@@ -130,19 +135,20 @@ wellPanel(
                                   column(2,#tags$br(tags$b("Storage Ratios")),
                                      numericInput("param_wq_ratio", "Water Quality (ratio):", 0.55, min=0,max = 1, width = "100px"),
                                      numericInput("param_ws_ratio", "Water Supply (ratio):", 0.45, min=0,max = 1, width = "100px")
+#                                     numericInput("bg_to_acft", "BG to Acre-ft (factor):", 3068.8878, min=3068.8878,max = 3068.8878, width = "100px"),
                                   ),
                                   column(2,#tags$br(tags$b("Recreational Targets")),
                                      numericInput("param_beach_elv", "Beach (ft):", 1455, min=0,max = 1466, width = "100px"),
                                      numericInput("param_wvboat_elv", "WV Boat Launch (ft):", 1445, min=0,max = 1466, width = "100px"),
                                      numericInput("param_mdboat_elv", "MD Boat Launch (ft):", 1420, min=0,max = 1466, width = "100px"),
-                                     numericInput("param_wwcutoff_elv", "JRR ww release cutoff limit (ft):", 1463, min=0,max = 1466, width = "100px")
+                                     numericInput("param_wwcutoff_elv", "JRR White Water Release Cutoff (ft):", 1463, min=0,max = 1466, width = "100px")
                                   ),
                                   column(2,#tags$br(tags$b("Recreational Release")),
-                                     numericInput("para_recrelease1_cfs", "Alt1 (cfs):", 300, min=0,max = 9000, width = "100px"),
-                                     numericInput("para_recrelease2_cfs", "Alt2 (cfs):", 250, min=0,max = 9000, width = "100px"),
-                                     numericInput("para_recrelease3_cfs", "Alt3 (cfs):", 200, min=0,max = 9000, width = "100px"),
-                                     numericInput("para_recrelease4_cfs", "Alt4 (cfs):", 150, min=0,max = 9000, width = "100px"),
-                                     numericInput("para_recrelease5_cfs", "Alt5 (cfs):", 100, min=0,max = 9000, width = "100px")
+                                     numericInput("para_recrelease1_cfs", "Recreation Release Alt1 (cfs):", 300, min=0,max = 9000, width = "100px"),
+                                     numericInput("para_recrelease2_cfs", "Recreation Release Alt2 (cfs):", 250, min=0,max = 9000, width = "100px"),
+                                     numericInput("para_recrelease3_cfs", "Recreation Release Alt3 (cfs):", 200, min=0,max = 9000, width = "100px"),
+                                     numericInput("para_recrelease4_cfs", "Recreation Release Alt4 (cfs):", 150, min=0,max = 9000, width = "100px"),
+                                     numericInput("para_recrelease5_cfs", "Recreation Release Alt5 (cfs):", 100, min=0,max = 9000, width = "100px")
                                   )
                                )
                           )
