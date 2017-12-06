@@ -1,73 +1,29 @@
-# #----------------------------------------------------------------------------
-# # observeEvent(input$reset.sa, {
-# #   updateCheckboxGroupInput(session, "gages.sa", 
-# #                            selected = c("por", "mon_jug", "lfalls",
-# #                                         "lfalls_from_upstr", "lfalls_trigger"))
-# # })
-# # #----------------------------------------------------------------------------
-# # observeEvent(input$clear.sa, {
-# #   updateCheckboxGroupInput(session, "gages.sa", "Variables to show:",
-# #                            c("Point of Rocks" = "por",
-# #                              "Monacacy" = "mon_jug",
-# #                              "Little Falls" = "lfalls",
-# #                              "Little Falls (Predicted from upstream gages)" = "lfalls_from_upstr",
-# #                              "Little Falls trigger for drought ops" = "lfalls_trigger"),
-# #                            selected = NULL)
-# # })
-# #------------------------------------------------------------------------------
-# output$supplier.dd.dts <- renderUI({
-#   if (is.null(withdrawals.reac())) return(NULL)
-#   column(10,
-#          "Release Scenario for Testing",
-#          fluidRow(
-#            column(2,"Monthly Average Water Quality Release, cfs"),
-#            column(2,"White Water/AVF Release, hours"),
-#            column(2,"Savage Water Supply Match, percent"),
-#            column(2,"Daily Average Water Supply Release, MGD"),
-#            column(2,"Length of Water Supply Release, days")
-#          ),
-#          fluidRow(
-#            column(2,"val",
-#                   lapply(1:13, function(i) {
-#                     numericInput(paste0("val", valtag[1], motag[i], sep="_"), molabel[i],
-#                                  0, min=0,max = 45.99 * 10^9,
-#                                  width = "100%")
-#                   }
-#                   )
-#            ),
-#            column(2,"val",
-#                   lapply(1:13, function(i) {
-#                     numericInput(paste0("val", valtag[1], motag[i], sep="_"), molabel[i],
-#                                  0, min=0,max = 45.99 * 10^9,
-#                                  width = "100%")
-#                   }
-#                   )
-#            ),
-#            column(2,"val",
-#                   lapply(1:13, function(i) {
-#                     numericInput(paste0("val", valtag[1], motag[i], sep="_"), molabel[i],
-#                                  0, min=0,max = 45.99 * 10^9,
-#                                  width = "100%")
-#                   }
-#                   )
-#            ),
-#            column(2,"val",
-#                   lapply(1:13, function(i) {
-#                     numericInput(paste0("val", valtag[1], motag[i], sep="_"), molabel[i],
-#                                  0, min=0,max = 45.99 * 10^9,
-#                                  width = "100%")
-#                   }
-#                   )
-#            ),
-#            column(2,"val",
-#                   lapply(1:13, function(i) {
-#                     numericInput(paste0("val", valtag[1], motag[i], sep="_"), molabel[i],
-#                                  0, min=0,max = 45.99 * 10^9,
-#                                  width = "100%")
-#                   }
-#                   )
-#            )
-#          )
-#   )  
-# 
-# })
+#----------------------------------------------------------------------------
+output$odo <- renderPlot({
+  
+  #----------------------------------------------------------------------------
+  gen_plots(odo.df(),
+            start.date(),
+            end.date(), 
+            min.flow = input$min.flow,
+            max.flow = input$max.flow,
+            gages.checked = input$gages.odo,
+            labels.vec = c("por" = "Point of Rocks",
+                           "lfalls" = "Little Falls",
+                           "predicted" = "Little Falls (Predicted)",
+                           "marfc" = "MARFC Forecast"),
+            linesize.vec = c("lfalls" = 2,
+                             "marfc" = 1.5,
+                             "por" = 2,
+                             "predicted" = 1.5),
+            linetype.vec = c("lfalls" = "solid",
+                             "marfc" = "dashed",
+                             "por" = "solid",
+                             "predicted" = "dashed"),
+            color.vec = c("lfalls" = "#0072B2",
+                          "marfc" = "#009E73",
+                          "por" = "#E69F00",
+                          "predicted" = 	"#56B4E9"),
+            x.class = "datetime",
+            y.lab = y.units())
+}) # End output$odo

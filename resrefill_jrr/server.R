@@ -6,13 +6,15 @@
 #    http://shiny.rstudio.com/
 #
 # Define server logic required to draw a histogram
-shinyServer(function(input, output) {
+shinyServer(function(input, output, session) {
   #----------------------------------------------------------------------------
-  # ALL TABS 
-  # Current Conditions (cc)
+  # Automatically stop session once browser window is closed.
+  # Appears to work but when editing the ui.R errors will beging to appear in
+  # to console.
+  session$onSessionEnded(stopApp)
   #----------------------------------------------------------------------------
-  #source("server/dates_server.R", local = TRUE) # don't think this is necessary yet
-source("server/import_server.R", local = TRUE)  
+  source("server/dates_server.R", local = TRUE) # don't think this is necessary yet
+  source("server/import_server.R", local = TRUE)  
   #----------------------------------------------------------------------------
   # TAB 1
   # Required

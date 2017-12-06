@@ -1,19 +1,13 @@
-#working.data.dir <- file.path("data")
-#print(working.data.dir)
-#  reactive({file.path("data", input$data.dir)})
+working.data.dir <- "data"
 #------------------------------------------------------------------------------
 na.replace <- c("", " ", "Eqp", "#N/A", "-999999")
 #------------------------------------------------------------------------------
-#daily.df <- reactive({
-  daily.df <- file.path("data/infows/jrr_inflows_mgd.csv") %>%
-    data.table::fread(data.table = FALSE,
-                      na.strings = na.replace) %>%
-   # dplyr::filter(!is.na(site)) %>%
-  #  dplyr::mutate(date_time = as.POSIXct(date_time),
-   #               date_time = lubridate::ymd(date_time))
- # return(daily.df)
-
-  
-#})
-print(daily.df)
+inflow.df <- file.path(working.data.dir, "inflows/jrr_inflows_mgd.csv") %>% 
+  data.table::fread(data.table = FALSE,
+                    na.strings = na.replace) %>% 
+#  dplyr::filter(type == "forecast") %>% # not used, filters by row strings in column type
+#  dplyr::select(date_time, flow) %>% # not used, filters by header labels date_time and flow
+  dplyr::mutate(date = lubridate::ymd(date),
+                inflow_mgd = as.numeric(inflow_mgd))
+#print(inflow.df)
 #----------------------------------------------------------------------------

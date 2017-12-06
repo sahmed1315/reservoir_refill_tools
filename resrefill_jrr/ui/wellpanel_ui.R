@@ -16,6 +16,12 @@ wellPanel(
                       paste0("Today's Date (", Sys.Date(), "):"),
                       value = Sys.Date(), min = "1929-10-01", max = Sys.Date(), format="yyyy-mm-dd",
                       width = "100px"),
+            div(id = "large",
+                dateRangeInput("date.range",
+                               "Date Range:", 
+                               start = Sys.Date() - lubridate::days(30),
+                               end = Sys.Date() + lubridate::days(30),
+                               width = "250px")),
             selectInput("units", "Units:", c("Acre-ft" = "acft", "BG" = "bg"), width = "100px"),
             numericInput("val_resmeas_tl", "Total Usable Storage:", 0, min=0,max = 45.99 * 10^9, width = "100px"),
             numericInput("val_resmeas_ws", "Water Supply Storage:", 0, min=0,max = 45.99 * 10^9, width = "100px")
